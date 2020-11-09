@@ -4,6 +4,10 @@
 #           #
 #############
 
+########
+# 関数 #
+########
+
 # コメント出力関数
 import strutils # joinを使うのに必要
 # proc {関数名}({引数名}: {型名}, ...): {戻り値の型} =
@@ -14,7 +18,25 @@ proc commentize(comment: string): string =
   const reset = "\e[0m"
   const commentHead = [green, "### "].join()
   const commentTail = [" ###", reset].join()
+  # nimはreturnがないとき、resultという変数を返す
+  # return -> result -> 最後に評価された式、という順番らしい
   result = [commentHead, comment, commentTail].join()
+
+# 別の書き方
+# returnせずそのままechoするので戻り値の型を指定しない
+proc commentizeOtherExpression(comment: string) =
+  # ANSIエスケープシーケンス
+  const green = "\e[32m"
+  const bgGreen = "\e[42m"
+  const reset = "\e[0m"
+  const commentHead = [green, "### "].join()
+  const commentTail = [" ###", reset].join()
+  echo [commentHead, comment, commentTail].join()
+
+
+########
+# 変数 #
+########
 
 # 文字列はダブルクォートで囲む
 echo commentize("echo")
@@ -43,6 +65,10 @@ var
 echo commentize("decleared together")
 echo "a: ", a, ", b: ", b
 #echo c, d
+
+############
+# テーブル #
+############
 
 # テーブル: Pythonで言うところのdict
 # https://nim-lang.org/docs/tables.html
@@ -85,6 +111,10 @@ let testCountTableStr: string = "Nim is the best programming language."
 let testCountTableStrFrequencies = toCountTable(testCountTableStr)
 echo commentize("CountTable")
 echo testCountTableStrFrequencies
+
+##########
+# ループ #
+##########
 
 # for i in range(0, 10), 10までいくの地味に注意が必要
 echo commentize("for loop: Be careful that 10 is counted.")
